@@ -1,8 +1,23 @@
 ---
-title: Deployment Automation and Orchestration with SaltStack
+title-prefix: Six Feet Up
+pagetitle: SaltStack Training
 author: Calvin Hendryx-Parker, CTO, Six Feet Up
-date: Purdue Training 2020
+author-meta:
+    - Calvin Hendryx-Parker
+date: Purdue SaltStack 2020
+date-meta: May 5, 2020
+keywords:
+    - Python
+    - Orchestration
+    - Configuration Management
+    - SaltStack
 ---
+
+
+# Deployment Automation and Orchestration {.semi-filtered data-background-image="images/snake.jpg"}
+## with SaltStack
+#### Calvin Hendryx-Parker, CTO
+#### Six Feet Up
 
 
 # Deployment Automation and Orchestration with SaltStack
@@ -15,7 +30,7 @@ date: Purdue Training 2020
 * Scalable
 * (and preferably as automated as possible)
 
-# What sets Salt apart from other configuration management tools?
+# What sets Salt apart? {.semi-filtered data-background-image="images/bg-community-hero3x.original.png"}
 
 * Remote Execution
 * Event-Driven Orchestration
@@ -70,12 +85,11 @@ Demo using the CLI
 * Masters
 * Minions
 
-## Follow along with this presentation:
+# Follow along
 
 TODO: change this up to use the Docker demo
 
-http://github.com/calvinhp/salt-orchestation-demo
--------------------------------------------------
+<http://github.com/calvinhp/salt-orchestation-demo>
 
 ::: notes
 
@@ -123,7 +137,14 @@ http://github.com/calvinhp/salt-orchestation-demo
 
 # Job Management
 
+* External and Master Job Caches
+
 # Scheduled Tasks in Salt
+
+# Returners
+
+* Elasticsearch
+* RDBMS
 
 # Using Dependencies with Orchestration
 
@@ -154,6 +175,14 @@ http://github.com/calvinhp/salt-orchestation-demo
 
 :::
 
+# Salt Proxy Minions
+
+# Salt Security
+
+* Access Control
+* Hardening Salt
+* Vault for Secrets
+
 
 # Adding a REST API to salt
 
@@ -181,6 +210,12 @@ http://github.com/calvinhp/salt-orchestation-demo
 
 * SSH
 * reat
+
+# Salt Master Deployment Options
+
+* Single Master
+* Master Fail-over
+* Hierarchal Syndics
 
 # SaltStack Enterprise
 
