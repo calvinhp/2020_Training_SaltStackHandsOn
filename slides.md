@@ -57,6 +57,7 @@ keywords:
 * Mines
 * Events
 * Beacons
+* Engines
 
 ::: notes
 
@@ -72,22 +73,23 @@ keywords:
 
 # Salt Installation
 
-* Bootstrap
-* Docker
-
-# Salt CLI and Remote Execution
-
-Demo using the CLI
+* Bootstrap -- <https://github.com/saltstack/salt-bootstrap>
+* Docker -- <https://hub.docker.com/r/saltstack/salt>
+* Package Management 👈 careful old packages
 
 
 # Salt Architecture
+:::::::::::::: {.columns}
+::: {.column width="40%"}
+![](images/basic-comm.png){.plain}
+:::
+::: {.column width="60%"}
+![](images/Salt_Architecture.width-800.png){.plain}
+:::
+::::::::::::::
 
-* Masters
-* Minions
 
 # Follow along
-
-TODO: change this up to use the Docker demo
 
 <http://github.com/calvinhp/salt-orchestation-demo>
 
@@ -106,6 +108,10 @@ TODO: change this up to use the Docker demo
     * salt '*' user.info dev1
 
 :::
+
+# Salt CLI and Remote Execution
+
+Demo using the CLI
 
 # Intro to Salt States
 
@@ -139,7 +145,75 @@ TODO: change this up to use the Docker demo
 
 * External and Master Job Caches
 
+# Active Jobs
+
+```yaml
+vagrant@salt:~$ sudo salt-run jobs.active
+20200505044728157234:
+    ----------
+    Arguments:
+    Function:
+        state.highstate
+    Returned:
+    Running:
+        |_
+          ----------
+          app1:
+              13619
+    StartTime:
+        2020, May 05 04:47:28.157234
+    Target:
+        salt-call
+    Target-type:
+        list
+    User:
+        root
+```
+
 # Scheduled Tasks in Salt
+
+```yaml
+schedule:
+  dev-db-pack:
+    function: state.orchestrate
+    args:
+      - orch.dev-db-pack
+    cron: '0 2 * * 0'
+  dev-db-backup:
+    function: state.orchestrate
+    args:
+      - orch.dev-db-backup
+    cron: '0 23 * * *'
+  prod-db-pack:
+    function: state.orchestrate
+    args:
+      - orch.prod-db-pack
+    cron: '0 2 * * 0'
+  prod-db-backup:
+    function: state.orchestrate
+    args:
+      - orch.prod-db-backup
+    cron: '0 23 * * *'
+```
+
+# Alternate Schedule Format
+
+```yaml
+schedule:
+  dev-backups:
+    function: state.orchestrate
+    args:
+      - orch.dev-db-backup
+    when:
+      - Monday 4:00am
+      - Tuesday 4:00am
+      - Wednesday 4:00am
+      - Thursday 4:00am
+      - Thursday 9:00pm
+      - Friday 4:00am
+      - Saturday 4:00am
+      - Sunday 4:00am
+```
 
 # Returners
 
@@ -157,6 +231,25 @@ TODO: change this up to use the Docker demo
     demo the code release orchestration state
 
 :::
+
+# Requisites in Orchestrations
+
+```yaml
+Environment passed in as pillar:
+  test.check_pillar:
+    - present:
+        - envname
+
+{% set envname = salt['pillar.get']('envname', 'MISSING ENVNAME') %}
+
+Current {{ envname }} Supervisor Status:
+  salt.function:
+    - name: supervisord.status
+    - tgt: {{ envname }}plone0*
+    - require:
+      - test: Environment passed in as pillar
+```
+
 
 # Use Reactors to Orchestrate
 
@@ -177,6 +270,8 @@ TODO: change this up to use the Docker demo
 
 # Salt Proxy Minions
 
+![](images/proxy_minions.png){.plain height="550"}
+
 # Salt Security
 
 * Access Control
@@ -189,6 +284,8 @@ TODO: change this up to use the Docker demo
 * Multiple Authentication Back-ends
 * Supports ACLs
 * Full async websockets for event notifications
+
+Demo of <https://github.com/saltstack/pepper>
 
 ::: notes
 
@@ -206,10 +303,21 @@ TODO: change this up to use the Docker demo
 
 # Salt Cloud
 
+## Support for popular public & private clouds
+
+* AWS Examples
+
 # Alternate Salt Transports
 
-* SSH
-* reat
+* ZeroMQ (Default)
+* Raw TCP Sockets
+* RAET
+
+Or Execute via SSH
+
+::: notes
+Reliable Asynchronous Event Transport
+:::
 
 # Salt Master Deployment Options
 
@@ -219,12 +327,20 @@ TODO: change this up to use the Docker demo
 
 # SaltStack Enterprise
 
-# Questions?
+![](https://marketplace.vmware.com/resources/e12db3f03b814d089c8df58367ad418a/screenshot/74beb8d5cd194791abab80ac8e9389c2/SaltStack%20Enterprise%20screenshot%201.png){.plain}
 
-## Thanks!
+#
 
-Get this project:
+![](images/enterprise.png){.plain}
 
-http://github.com/calvinhp/salt-orchestation-demo
+# Questions? {data-background-image="https://c1.staticflickr.com/1/92/239595034_d51a99ced1_o.jpg"}
 
-`@calvinhp <http://twitter.com/calvinhp>`__
+## <calvin@sixfeetup.com>
+
+[`@calvinhp`](https://twitter.com/calvinhp)
+
+<br />
+
+### Get this project:
+
+<http://github.com/calvinhp/salt-orchestation-demo>
